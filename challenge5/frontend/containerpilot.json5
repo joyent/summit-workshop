@@ -30,15 +30,6 @@
         source: 'watch.serializer',
         each: 'changed'
       }
-    },
-    {
-      name: 'memory-sensor',
-      exec: '/bin/memory.sh',
-      timeout: '5s',
-      when: {
-        interval: '5s'
-      },
-      restarts: 'unlimited'
     }
   ],
   watches: [
@@ -46,18 +37,5 @@
       name: 'serializer',
       interval: 3
     }
-  ],
-  telemetry: {
-    port: 9090,
-    tags: ['op'],
-    metrics: [
-      {
-        namespace: 'example',
-        subsystem: 'frontend',
-        name: 'free_memory',
-        help: 'Amount of free memory',
-        type: 'gauge'
-      }
-    ]
-  }
+  ]
 }

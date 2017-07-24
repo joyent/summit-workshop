@@ -1,23 +1,44 @@
 ## Solution to Challenge 4
 
-Add the following lines to the gateway/gateway.config.yml file
+Add the following job to the gateway/etc/containerpilot.json5 file
 ```
-urls:
-  - 'http://frontend1:8080'
-  - 'http://frontend2:8080'
+{
+  name: 'preStart',
+  exec: 'generate-config'
+},
 ```
 
-Update the docker-compose gateway `links` section with the following entries
-```sh
-links:
-  - frontend1
-  - frontend2
+Add the following to the gateway job in the gateway/etc/containerpilot.json5 file
+```
+when: {
+  source: "preStart",
+  once: "exitSuccess"
+},
+```
+
+Add the following job to the gateway/etc/containerpilot.json5 file
+```
+{
+  name: 'onchange-frontend',
+  exec: 'generate-config',
+  when: {
+    source: 'watch.frontend',
+    each: 'changed'
+  }
+}
 ```
 
 Start the containers with
 ```sh
 docker-compose up -d
 ```
+
+Scale the frontend instances
+```sh
+docker-compose scale frontend=3
+```
+
+Point your browser to [http://localhost:8500](). You should see more instances of the frontend service as healthy.
 
 Point your browser to [http://localhost:8080](). You should see a chart, like the one shown here:
 

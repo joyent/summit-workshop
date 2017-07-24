@@ -2,14 +2,8 @@
   consul: 'localhost:8500',
   jobs: [
     {
-      name: 'gateway',
-      port: 8080,
-      exec: 'node /opt/app/server.js',
-      health: {
-        exec: 'true',
-        interval: 3,
-        ttl: 5
-      },
+      name: '{{.SENSOR_TYPE}}',
+      exec: 'node /opt/app/',
       restarts: 'unlimited'
     },
     {
@@ -23,12 +17,20 @@
                   '-retry-max', '10',
                   '-retry-interval', '10s'],
       restarts: 'unlimited'
+    },
+    {
+      name: 'onchange-nats',
+      exec: 'pkill -SIGHUP node',
+      when: {
+        source: 'watch.nats',
+        each: 'changed'
+      }
     }
   ],
   watches: [
     {
-      name: 'frontend',
-      interval: 2
+      name: 'nats',
+      interval: 3
     }
   ]
 }

@@ -2,15 +2,14 @@
   consul: 'localhost:8500',
   jobs: [
     {
-      name: 'gateway',
-      port: 8080,
-      exec: 'node /opt/app/server.js',
+      name: 'serializer',
+      port: {{.PORT}},
+      exec: 'node /opt/app/',
       health: {
-        exec: 'true',
-        interval: 3,
-        ttl: 5
-      },
-      restarts: 'unlimited'
+        exec: '/usr/bin/curl -o /dev/null --fail -s http://127.0.0.1:{{.PORT}}/check-it-out',
+        interval: 1,
+        ttl: 2
+      }
     },
     {
       name: 'consul-agent',
@@ -23,11 +22,19 @@
                   '-retry-max', '10',
                   '-retry-interval', '10s'],
       restarts: 'unlimited'
+    },
+    {
+      name: 'onchange-influxdb',
+      exec: 'pkill -SIGHUP node',
+      when: {
+        source: 'watch.influxdb',
+        each: 'changed'
+      }
     }
   ],
   watches: [
     {
-      name: 'frontend',
+      name: 'influxdb',
       interval: 2
     }
   ]

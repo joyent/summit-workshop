@@ -6,6 +6,7 @@ Using docker links isn't a good method for scaling. Instead we will add consul a
 
 
 __hint__ ContainerPilot documentation can be found at https://www.joyent.com/containerpilot/docs
+__hint__ You need to add a job to execute `generate-config`
 
 ### [Solution](./SOLUTION.md)
 

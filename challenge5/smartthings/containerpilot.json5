@@ -2,14 +2,15 @@
   consul: 'localhost:8500',
   jobs: [
     {
-      name: 'frontend',
+      name: 'smartthings',
       port: {{.PORT}},
       exec: 'node /opt/app/',
       health: {
-        exec: '/usr/bin/curl -o /dev/null --fail -s http://localhost:{{.PORT}}/check-it-out',
-        interval: 2,
-        ttl: 5
-      }
+        exec: '/opt/app/health.sh',
+        interval: 5,
+        ttl: 30
+      },
+      restarts: 'unlimited'
     },
     {
       name: 'consul-agent',
@@ -24,40 +25,18 @@
       restarts: 'unlimited'
     },
     {
-      name: 'onchange-serializer',
+      name: 'onchange-nats',
       exec: 'pkill -SIGHUP node',
       when: {
-        source: 'watch.serializer',
+        source: 'watch.nats',
         each: 'changed'
       }
-    },
-    {
-      name: 'memory-sensor',
-      exec: '/bin/memory.sh',
-      timeout: '5s',
-      when: {
-        interval: '5s'
-      },
-      restarts: 'unlimited'
     }
   ],
   watches: [
     {
-      name: 'serializer',
+      name: 'nats',
       interval: 3
     }
-  ],
-  telemetry: {
-    port: 9090,
-    tags: ['op'],
-    metrics: [
-      {
-        namespace: 'example',
-        subsystem: 'frontend',
-        name: 'free_memory',
-        help: 'Amount of free memory',
-        type: 'gauge'
-      }
-    ]
-  }
+  ]
 }
