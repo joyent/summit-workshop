@@ -4,7 +4,14 @@ Example microservices implementation using Node.js and Docker. Below is an archi
 
 ![](./images/project_overview.png)
 
+## Prerequisites
+
+1. npm 4.x or npm 5.3.1 or newer. 
+2. A recent docker version
+
 ## Challenges
+
+The workshop is divided into challenges. Each challenge is contained in each folder and the readme file explains the requirements for the challenge. In the challenge folder is also a solution file that explains how to solve the challenge. Below is a list of the different challenges and what they are meant to teach.
 
 1. Ensure that node is working properly, startup the frontend
 2. Ensure that docker is working properly, startup the frontend with docker
