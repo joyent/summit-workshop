@@ -12,6 +12,7 @@ serviceEndpoints:
   frontend:
     urls:
       #### UPDATE ME ####
+      # - http://server:port #
 policies:
   - proxy
 pipelines:
@@ -22,3 +23,7 @@ pipelines:
       - proxy:
           - action:
               serviceEndpoint: frontend
+# express gateway supports other policies as well: https://www.express-gateway.io/docs/policies/
+# - authentication
+# - rate limiting
+# - logging
