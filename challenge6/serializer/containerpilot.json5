@@ -2,9 +2,14 @@
   consul: 'localhost:8500',
   jobs: [
     {
-      name: '{{.SENSOR_TYPE}}',
+      name: 'serializer',
+      port: {{.PORT}},
       exec: 'node /opt/app/',
-      restarts: 'unlimited'
+      health: {
+        exec: '/usr/bin/curl -o /dev/null --fail -s http://127.0.0.1:{{.PORT}}/check-it-out',
+        interval: 1,
+        ttl: 2
+      }
     },
     {
       name: 'consul-agent',
@@ -19,30 +24,18 @@
       restarts: 'unlimited'
     },
     {
-      name: 'onchange-serializer',
+      name: 'onchange-influxdb',
       exec: 'pkill -SIGHUP node',
       when: {
-        source: 'watch.serializer',
-        each: 'changed'
-      }
-    },
-    {
-      name: 'onchange-nats',
-      exec: 'pkill -SIGHUP node',
-      when: {
-        source: 'watch.nats',
+        source: 'watch.influxdb',
         each: 'changed'
       }
     }
   ],
   watches: [
     {
-      name: 'serializer',
-      interval: 1
-    },
-    {
-      name: 'nats',
-      interval: 3
+      name: 'influxdb',
+      interval: 2
     }
   ]
 }

@@ -1,0 +1,12 @@
+#!/bin/bash
+set -e
+
+CONSUL=${CONSUL:-consul}
+
+
+# Render configuration template using values from Consul
+consul-template \
+    -once \
+    -dedup \
+    -consul-addr "${CONSUL}:8500" \
+    -template "/opt/app/gateway.config.tmpl.yml:/opt/app/gateway.config.yml"

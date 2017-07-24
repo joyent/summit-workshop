@@ -2,9 +2,14 @@
   consul: 'localhost:8500',
   jobs: [
     {
-      name: '{{.SENSOR_TYPE}}',
+      name: 'frontend',
+      port: {{.PORT}},
       exec: 'node /opt/app/',
-      restarts: 'unlimited'
+      health: {
+        exec: '/usr/bin/curl -o /dev/null --fail -s http://localhost:{{.PORT}}/check-it-out',
+        interval: 2,
+        ttl: 5
+      }
     },
     {
       name: 'consul-agent',
@@ -25,23 +30,11 @@
         source: 'watch.serializer',
         each: 'changed'
       }
-    },
-    {
-      name: 'onchange-nats',
-      exec: 'pkill -SIGHUP node',
-      when: {
-        source: 'watch.nats',
-        each: 'changed'
-      }
     }
   ],
   watches: [
     {
       name: 'serializer',
-      interval: 1
-    },
-    {
-      name: 'nats',
       interval: 3
     }
   ]

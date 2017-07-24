@@ -2,8 +2,14 @@
   consul: 'localhost:8500',
   jobs: [
     {
-      name: '{{.SENSOR_TYPE}}',
+      name: 'smartthings',
+      port: {{.PORT}},
       exec: 'node /opt/app/',
+      health: {
+        exec: '/opt/app/health.sh',
+        interval: 5,
+        ttl: 30
+      },
       restarts: 'unlimited'
     },
     {
@@ -19,14 +25,6 @@
       restarts: 'unlimited'
     },
     {
-      name: 'onchange-serializer',
-      exec: 'pkill -SIGHUP node',
-      when: {
-        source: 'watch.serializer',
-        each: 'changed'
-      }
-    },
-    {
       name: 'onchange-nats',
       exec: 'pkill -SIGHUP node',
       when: {
@@ -36,10 +34,6 @@
     }
   ],
   watches: [
-    {
-      name: 'serializer',
-      interval: 1
-    },
     {
       name: 'nats',
       interval: 3
