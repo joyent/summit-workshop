@@ -1,0 +1,50 @@
+{
+  consul: 'localhost:8500',
+  jobs: [
+    {
+      name: 'preStart',
+      exec: 'generate-config'
+    },
+    {
+      name: 'gateway',
+      port: 8001,
+      exec: 'node /opt/app/server.js',
+      when: {
+        source: "preStart",
+        once: "exitSuccess"
+      },
+      health: {
+        exec: 'true',
+        interval: 3,
+        ttl: 5
+      },
+      restarts: 'unlimited'
+    },
+    {
+      name: 'consul-agent',
+      exec: ['/usr/local/bin/consul', 'agent',
+                  '-data-dir=/data',
+                  '-config-dir=/config',
+                  '-log-level=err',
+                  '-rejoin',
+                  '-retry-join', '{{ .CONSUL | default "consul" }}',
+                  '-retry-max', '10',
+                  '-retry-interval', '10s'],
+      restarts: 'unlimited'
+    },
+    {
+      name: 'onchange-frontend',
+      exec: 'generate-config',
+      when: {
+        source: 'watch.frontend',
+        each: 'changed'
+      }
+    }
+  ],
+  watches: [
+    {
+      name: 'frontend',
+      interval: 2
+    }
+  ]
+}

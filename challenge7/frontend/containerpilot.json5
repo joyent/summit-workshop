@@ -1,0 +1,63 @@
+{
+  consul: 'localhost:8500',
+  jobs: [
+    {
+      name: 'frontend',
+      port: {{.PORT}},
+      exec: 'node /opt/app/',
+      health: {
+        exec: '/usr/bin/curl -o /dev/null --fail -s http://localhost:{{.PORT}}/check-it-out',
+        interval: 2,
+        ttl: 5
+      }
+    },
+    {
+      name: 'consul-agent',
+      exec: ['/usr/local/bin/consul', 'agent',
+                  '-data-dir=/data',
+                  '-config-dir=/config',
+                  '-log-level=err',
+                  '-rejoin',
+                  '-retry-join', '{{ .CONSUL | default "consul" }}',
+                  '-retry-max', '10',
+                  '-retry-interval', '10s'],
+      restarts: 'unlimited'
+    },
+    {
+      name: 'onchange-serializer',
+      exec: 'pkill -SIGHUP node',
+      when: {
+        source: 'watch.serializer',
+        each: 'changed'
+      }
+    },
+    {
+      name: 'memory-sensor',
+      exec: '/bin/memory.sh',
+      timeout: '5s',
+      when: {
+        interval: '5s'
+      },
+      restarts: 'unlimited'
+    }
+  ],
+  watches: [
+    {
+      name: 'serializer',
+      interval: 3
+    }
+  ],
+  telemetry: {
+    port: 9090,
+    tags: ['op'],
+    metrics: [
+      {
+        namespace: 'example',
+        subsystem: 'frontend',
+        name: 'free_memory',
+        help: 'Amount of free memory',
+        type: 'gauge'
+      }
+    ]
+  }
+}

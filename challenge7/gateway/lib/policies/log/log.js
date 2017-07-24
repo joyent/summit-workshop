@@ -1,0 +1,19 @@
+'use strict';
+
+let logger = require('./winston-logger');
+const ConfigurationError = require('../../errors').ConfigurationError;
+
+module.exports = function (params) {
+  if (!params || !params.message) {
+    throw new ConfigurationError('Log middleware requires "message" param');
+  }
+
+  return function (req, res, next) {
+    try {
+      logger.info(req.egContext.evaluateAsTemplateString(params.message));
+    } catch (e) {
+      logger.error('failed to build log message; ' + e.message);
+    }
+    next();
+  };
+};
