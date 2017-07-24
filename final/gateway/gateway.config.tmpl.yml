@@ -1,0 +1,24 @@
+apiEndpoints:
+  api:
+    host: '*'
+
+http:
+  port: 8001
+admin:
+  port: 9876
+  hostname: localhost
+
+serviceEndpoints:
+  frontend:
+    urls: {{ range service "frontend" }}
+      - 'http://{{ .Address }}:{{ .Port }}'{{ end }}
+policies:
+  - proxy
+pipelines:
+  - name: adminAPI
+    apiEndpoints:
+      - api
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: frontend

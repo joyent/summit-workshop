@@ -1,0 +1,23 @@
+version: '2.1'
+services:
+  gateway:
+    build: ./gateway
+    ports:
+      - "8080:8080"
+    links:
+      ### UPDATE ME ###
+    restart: always
+  frontend1:
+    build: ./frontend
+    environment:
+      - PORT=8080
+    expose:
+      - 8080
+    restart: always
+  frontend2:
+    build: ./frontend
+    environment:
+      - PORT=8080
+    expose:
+      - 8080
+    restart: always

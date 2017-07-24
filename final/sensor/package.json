@@ -1,0 +1,13 @@
+{
+  "name": "temperature",
+  "version": "1.0.0",
+  "description": "",
+  "main": "lib/index.js",
+  "author": "",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "nats": "0.7.x",
+    "piloted": "3.x.x",
+    "wreck": "12.x.x"
+  }
+}

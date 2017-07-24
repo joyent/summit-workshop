@@ -1,0 +1,24 @@
+apiEndpoints:
+  api:
+    host: '*'
+
+http:
+  port: 8080
+admin:
+  port: 9876
+  hostname: localhost
+
+serviceEndpoints:
+  frontend:
+    urls:
+      #### UPDATE ME ####
+policies:
+  - proxy
+pipelines:
+  - name: adminAPI
+    apiEndpoints:
+      - api
+    policies:
+      - proxy:
+          - action:
+              serviceEndpoint: frontend

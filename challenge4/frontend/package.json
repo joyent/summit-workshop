@@ -1,0 +1,16 @@
+{
+  "name": "frontend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/index.js",
+  "keywords": [],
+  "author": "",
+  "license": "MPL-2.0",
+  "dependencies": {
+    "brule": "2.x.x",
+    "end-of-stream": "1.x.x",
+    "hapi": "16.x.x",
+    "inert": "4.x.x",
+    "websocket-stream": "3.x.x"
+  }
+}
