@@ -11,15 +11,15 @@ Example microservices implementation using Node.js and Docker. Below is an archi
 
 ## Challenges
 
-The workshop is divided into challenges. Each challenge is contained in each folder and the readme file explains the requirements for the challenge. In the challenge folder is also a solution file that explains how to solve the challenge. Below is a list of the different challenges and what they are meant to teach.
+The workshop is divided into challenges. In each challenge folder there is a readme that explains the requirements for the challenge. In the challenge folder is also a solution file that explains how to solve the challenge. Below is a list of the different challenges.
 
-1. Ensure that node is working properly, startup the frontend
-2. Ensure that docker is working properly, startup the frontend with docker
-3. Ensure that docker-compose is installed and working, startup the gateway and frontend
-4. ContainerPilot is introduced. Used to scale the frontend behind the gateway
-5. The biggest challenge, this will add smartthings, nats, a worker (temperature), serializer, and influxdb
-6. Add the humidity and motion workers
-7. Add prometheus and connect telemetry
+1. [Startup the frontend with node](./challenge1)
+2. [Startup the frontend with docker](./challenge2)
+3. [Startup the gateway and 2 frontend instances with docker-compose](./challenge3)
+4. [Scale the frontend behind the gateway using docker with ContainerPilot](./challenge4)
+5. [Add smartthings, NATS, a worker (temperature), serializer, and influxdb](./challenge5)
+6. [Add the humidity and motion workers](./challenge6)
+7. [Add prometheus and connect telemetry](./challenge7)
 
 
 ## Credits
