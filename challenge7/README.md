@@ -10,4 +10,4 @@ __hint__ ContainerPilot documentation can be found at https://www.joyent.com/con
 
 ### [Solution](./SOLUTION.md)
 
-## Next Up: Have Fun!
+## Next Up: [Final!](../final/README.md)
