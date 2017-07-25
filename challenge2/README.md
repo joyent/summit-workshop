@@ -6,6 +6,7 @@ Your challenge is to update the Dockerfile so that it runs `npm install` and has
 
 
 __hint__ the frontend expects an environment variable named PORT
+
 __hint__ dockerfile documentation can be found at https://docs.docker.com/engine/reference/builder/
 
 ### [Solution](./SOLUTION.md)
