@@ -19,6 +19,14 @@
       restarts: 'unlimited'
     },
     {
+      name: 'onchange-serializer',
+      exec: 'pkill -SIGHUP node',
+      when: {
+        source: 'watch.serializer',
+        each: 'changed'
+      }
+    },
+    {
       name: 'onchange-nats',
       exec: 'pkill -SIGHUP node',
       when: {
@@ -28,6 +36,10 @@
     }
   ],
   watches: [
+    {
+      name: 'serializer',
+      interval: 1
+    },
     {
       name: 'nats',
       interval: 3
