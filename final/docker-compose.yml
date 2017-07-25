@@ -37,18 +37,14 @@ redis:
     - 6379
   restart: always
 gateway:
-  image: d0cker/gateway:1.0.0
+  image: d0cker/gateway:4.0.0
   ports:
     - "8001:8001"
-  labels:
-    - triton.cns.services=gateway
   links:
     - redis:redis
   env_file:
     - _env
   restart: always
-  dns:
-    - 127.0.0.1
 influxdb:
   image: autopilotpattern/influxdb:1.1.1
   ports:
@@ -66,7 +62,7 @@ influxdb:
     - INFLUXDB_HTTP_LOG_ENABLED=false
     - INFLUXDB_CONTINUOUS_QUERIES_LOG_ENABLED=false
 serializer:
-  image: d0cker/serializer:6.4.0
+  image: d0cker/serializer:6.5.0
   env_file:
     - _env
   environment:
@@ -82,6 +78,8 @@ frontend:
     - _env
   expose:
     - "80"
+  ports:
+    - "80:80"
   restart: always
 smartthings:
   image: d0cker/smartthings:8.2.0
