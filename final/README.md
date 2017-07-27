@@ -12,7 +12,7 @@ $ ./setup.sh
 ```sh
 # docker-compose method
 $ eval "$(triton env)"
-$ docker-compose up -d
+$ docker-compose up
 ```
 
 ```sh

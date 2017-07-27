@@ -1,6 +1,9 @@
 ## Solution to Challenge 6
 
-Add the following job to the docker-compose.yml file
+### Docker Compose
+
+Add the following jobs to the docker-compose.yml file
+
 ```
 humidity:
   build: ./sensor
@@ -24,12 +27,17 @@ motion:
   restart: always
 ```
 
+### Run
+
 Start the containers with
 ```sh
-docker-compose up -d
+docker-compose build
+docker-compose up
 ```
 
 Point your browser to [http://localhost:8080](). You should now see humidity and motion data.
+
+### Clean
 
 You can stop and remove the containers by running the following:
 

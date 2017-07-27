@@ -1,6 +1,8 @@
 ## Solution to Challenge 5
 
-Add the following job to the sensor/lib/index.js file
+### Piloted
+
+Add the following job to the sensor/lib/index.js file https://www.npmjs.com/package/piloted
 ```js
 const serializer = Piloted.service('serializer');
 
@@ -9,6 +11,8 @@ if (!serializer) {
   return setTimeout(() => { writeData(data); }, 1000);
 }
 ```
+
+### ContainerPilot
 
 Add the following job to the sensor/containerpilot.json5 file
 ```
@@ -30,14 +34,20 @@ Add the following watch to the sensor/containerpilot.json5 file
 },
 ```
 
+
+### Run
+
 Start the containers with
 ```sh
-docker-compose up -d
+docker-compose up
 ```
 
 Point your browser to [http://localhost:8500](). You should see all of the services as healthy.
 
 Point your browser to [http://localhost:8080]().
+
+
+### Clean
 
 You can stop and remove the containers by running the following:
 

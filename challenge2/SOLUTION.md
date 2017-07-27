@@ -1,10 +1,16 @@
 ## Solution to Challenge 2
 
+
+### Dockerfile
+
 Add the following lines to the end of the Dockerfile
 ```
 RUN npm install
 CMD ["node", "."]
 ```
+
+
+### Run
 
 Build the image
 ```sh
@@ -20,8 +26,17 @@ Point your browser to [http://localhost:8080](). You should see a chart, like th
 
 ![image](../images/frontend.png)
 
+
+### Clean
+
 You can stop and remove the container by running the following:
 
 ```sh
 docker rm -f frontend
+```
+
+Verify that the container has been stopped:
+
+```sh
+docker ps
 ```
